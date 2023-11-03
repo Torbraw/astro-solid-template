@@ -1,0 +1,28 @@
+---
+import { twMerge } from 'tailwind-merge';
+import { DayIcon, NightIcon } from '@/components/common/icons';
+import { Button } from '@/components/ui/button';
+import type { ComponentProps } from 'solid-js';
+
+type Props = Omit<ComponentProps<'button'>, 'classList'>;
+
+const { class: className = '', ...rest } = Astro.props;
+---
+
+<Button variant="ghost" size="icon" id="theme-toggle" class={twMerge('transition-none', className)} {...rest}>
+  <DayIcon class="block h-6 w-6 dark:hidden" />
+  <NightIcon class="hidden h-6 w-6 dark:block" />
+</Button>
+
+<script is:inline>
+  const theme = localStorage.getItem('theme') ?? 'light';
+  const html = document.querySelector('html');
+  html.classList.add(theme);
+
+  const themeToggle = document.querySelector('#theme-toggle');
+
+  themeToggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>

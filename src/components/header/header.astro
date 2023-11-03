@@ -1,0 +1,16 @@
+---
+import ThemeToggle from './theme-toggle.astro';
+---
+
+<header class="flex h-12 items-center px-8 print:hidden">
+  <div class="flex flex-1">
+    <nav class="flex flex-auto">
+      <ul class="flex items-center gap-6">
+        <li>
+          <a class="font-bold hover:text-foreground/80" href="/">Home</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <ThemeToggle />
+</header>

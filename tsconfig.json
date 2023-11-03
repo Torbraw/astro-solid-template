@@ -1,0 +1,25 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.astro",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".eslintrc.cjs",
+    "prettier.config.cjs",
+    "tailwind.config.cjs"
+  ],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "verbatimModuleSyntax": true,
+    "jsxImportSource": "solid-js",
+    "baseUrl": "C:/Users/Poste/Desktop/Prog/java-to-ts",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  }
+}

@@ -29,3 +29,50 @@ export const DayIcon: ParentComponent<ComponentProps<'svg'>> = (props) => {
     </svg>
   );
 };
+
+export const LangIcon: ParentComponent<ComponentProps<'svg'>> = (props) => {
+  const [local, rest] = splitProps(props, ['class']);
+
+  return (
+    <svg class={local.class} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88.6 77.3">
+      <path
+        fill="currentColor"
+        d="M61 24.6h7.9l18.7 51.6h-7.7l-5.4-15.5H54.3l-5.6 15.5h-7.2L61 24.6zM72.6 55l-8-22.8L56.3 55h16.3z"
+      />
+      <path
+        fill="currentColor"
+        d="M53.6 60.6c-10-4-16-9-22-14 0 0 1.3 1.3 0 0-6 5-20 13-20 13l-4-6c8-5 10-6 19-13-2.1-1.9-12-13-13-19h8c4 9 10 14 10 14 10-8 10-19 10-19h8s-1 13-12 24c5 5 10 9 19 13l-3 7zm-52-44h56v-8h-23v-7h-9v7h-24v8z"
+      />
+    </svg>
+  );
+};
+
+export const CheckIcon: ParentComponent<ComponentProps<'svg'>> = (props) => {
+  const [local, rest] = splitProps(props, ['class']);
+
+  return (
+    <svg class={local.class} {...rest} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      />
+    </svg>
+  );
+};
+
+export const ArrowDownIcon: ParentComponent<ComponentProps<'svg'>> = (props) => {
+  const [local, rest] = splitProps(props, ['class']);
+
+  return (
+    <svg class={local.class} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M11.9997 13.1714L16.9495 8.22168L18.3637 9.63589L11.9997 15.9999L5.63574 9.63589L7.04996 8.22168L11.9997 13.1714Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      />
+    </svg>
+  );
+};

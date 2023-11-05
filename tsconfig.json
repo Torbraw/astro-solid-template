@@ -15,7 +15,7 @@
     "jsx": "preserve",
     "verbatimModuleSyntax": true,
     "jsxImportSource": "solid-js",
-    "baseUrl": "C:/Users/Poste/Desktop/Prog/java-to-ts",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"

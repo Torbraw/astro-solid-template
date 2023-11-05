@@ -1,16 +1,20 @@
 ---
+import { getLangFromUrl, useTranslations } from '@/lib/utils';
+import { LanguageSelect } from './language-select';
 import ThemeToggle from './theme-toggle.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<header class="flex h-12 items-center px-8 print:hidden">
+<header class="mb-4 flex h-12 items-center border-b border-border px-8">
   <div class="flex flex-1">
-    <nav class="flex flex-auto">
-      <ul class="flex items-center gap-6">
-        <li>
-          <a class="font-bold hover:text-foreground/80" href="/">Home</a>
-        </li>
-      </ul>
-    </nav>
+    <div class="flex w-full gap-6 font-medium">
+      <a href="/">{t('home')}</a>
+    </div>
   </div>
-  <ThemeToggle />
+  <div class="flex justify-end gap-4">
+    <LanguageSelect client:load lang={lang} />
+    <ThemeToggle />
+  </div>
 </header>

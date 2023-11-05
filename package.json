@@ -1,5 +1,5 @@
 {
-  "name": "java-to-ts",
+  "name": "astro-solid-template",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -12,6 +12,8 @@
   "dependencies": {
     "@astrojs/solid-js": "^3.0.2",
     "@astrojs/tailwind": "^5.0.2",
+    "@astrojs/vercel": "^5.1.0",
+    "@kobalte/core": "^0.11.2",
     "astro": "^3.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

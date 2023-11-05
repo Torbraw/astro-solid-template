@@ -1,5 +1,5 @@
 ---
-import { twMerge } from 'tailwind-merge';
+import { cn } from '@/lib/utils';
 import { DayIcon, NightIcon } from '@/components/common/icons';
 import { Button } from '@/components/ui/button';
 import type { ComponentProps } from 'solid-js';
@@ -9,7 +9,7 @@ type Props = Omit<ComponentProps<'button'>, 'classList'>;
 const { class: className = '', ...rest } = Astro.props;
 ---
 
-<Button variant="ghost" size="icon" id="theme-toggle" class={twMerge('transition-none', className)} {...rest}>
+<Button variant="ghost" size="icon" id="theme-toggle" class={cn('transition-none', className)} {...rest}>
   <DayIcon class="block h-6 w-6 dark:hidden" />
   <NightIcon class="hidden h-6 w-6 dark:block" />
 </Button>

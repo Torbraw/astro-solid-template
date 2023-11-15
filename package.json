@@ -14,9 +14,13 @@
     "@astrojs/tailwind": "^5.0.2",
     "@astrojs/vercel": "^5.1.0",
     "@kobalte/core": "^0.11.2",
+    "@lucia-auth/adapter-mysql": "^2.1.0",
+    "@lucia-auth/oauth": "^3.5.0",
+    "@planetscale/database": "^1.11.0",
     "astro": "^3.5.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "lucia": "^2.7.4",
     "solid-js": "^1.8.5",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"

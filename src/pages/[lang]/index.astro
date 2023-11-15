@@ -2,11 +2,13 @@
 export const prerender = true;
 
 import BaseLayout from '@/layouts/base-layout.astro';
-import { LANGUAGES } from '@/lib/config';
+import { LANGUAGES, type LangKeys } from '@/lib/config';
 
 export function getStaticPaths() {
   return Object.keys(LANGUAGES).map((lang) => ({ params: { lang } }));
 }
+
+const { lang } = Astro.params;
 ---
 
-<BaseLayout title="Home" />
+<BaseLayout title="Index" lang={lang as LangKeys} />

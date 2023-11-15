@@ -1,5 +1,4 @@
 # astro-solid-template
 
-- Add lucia auth with github
 - Add mobile menu
-- Redige readme
+- Redige readme (add lucia auth ref for schema)

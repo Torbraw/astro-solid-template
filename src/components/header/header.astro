@@ -1,21 +1,44 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/lib/utils';
+import { useTranslations } from '@/lib/utils';
 import { LanguageSelect } from './language-select';
 import ThemeToggle from './theme-toggle.astro';
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { User } from 'lucia';
+import type { LangKeys } from '@/lib/config';
+import { Button, buttonVariants } from '../ui/button';
 
-const lang = getLangFromUrl(Astro.url);
+interface Props {
+  user?: User;
+  lang: LangKeys;
+}
+
+const { user, lang } = Astro.props;
 const t = useTranslations(lang);
-const baseUrl = getRelativeLocaleUrl(lang);
 ---
 
 <header class="mb-4 flex h-12 items-center border-b border-border px-8">
   <div class="flex flex-1">
     <div class="flex w-full gap-6 font-medium">
-      <a href={baseUrl}>{t('home')}</a>
+      <a href={`/${lang}`}>{t('index')}</a>
+      <a href={`/${lang}/home`}>{t('home')}</a>
     </div>
   </div>
   <div class="flex justify-end gap-4">
+    {
+      user ? (
+        <form method="post" action={`/api/${lang}/logout`}>
+          <Button variant="outline" type="submit" class="hidden transition-none lg:flex">
+            {t('logout')}
+          </Button>
+        </form>
+      ) : (
+        <a
+          class:list={['hidden lg:flex', buttonVariants({ variant: 'default', size: 'default' })]}
+          href={`/api/${lang}/login/github`}
+        >
+          {t('login')}
+        </a>
+      )
+    }
     <LanguageSelect client:load lang={lang} />
     <ThemeToggle />
   </div>

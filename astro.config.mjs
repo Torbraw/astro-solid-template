@@ -15,12 +15,5 @@ export default defineConfig({
     }),
     solidJs(),
   ],
-  adapter: vercel(),
-  experimental: {
-    i18n: {
-      defaultLocale: 'en',
-      locales: ['en', 'fr'],
-      routingStrategy: 'prefix-always'
-    }
-  }
+  adapter: vercel()
 });

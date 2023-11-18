@@ -1,14 +1,9 @@
 ---
-export const prerender = true;
-
 import BaseLayout from '@/layouts/base-layout.astro';
-import { LANGUAGES, type LangKeys } from '@/lib/config';
+import { getLangFromUrl } from '@/lib/utils';
 
-export function getStaticPaths() {
-  return Object.keys(LANGUAGES).map((lang) => ({ params: { lang } }));
-}
-
-const { lang } = Astro.params;
+const lang = getLangFromUrl(Astro.url);
+const session = await Astro.locals.auth.validate();
 ---
 
-<BaseLayout title="Index" lang={lang as LangKeys} />
+<BaseLayout title="Index" lang={lang} user={session?.user} />

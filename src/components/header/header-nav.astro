@@ -1,0 +1,38 @@
+---
+import type { LangKeys } from '@/lib/config';
+import type { User } from 'lucia';
+import { useTranslations } from '@/lib/utils';
+
+type Props = {
+  user?: User;
+  lang: LangKeys;
+  type: 'mobile' | 'desktop';
+};
+
+const { user, lang, type } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<nav class:list={[{ 'hidden flex-auto lg:flex': type === 'desktop', 'py-4': type === 'mobile' }]}>
+  <ul
+    class:list={[
+      {
+        'flex items-center gap-6': type === 'desktop',
+        'flex flex-col items-center gap-6 text-2xl': type === 'mobile',
+      },
+    ]}
+  >
+    <li>
+      <a class="hover:text-foreground/80" href={`/${lang}`}>{t('index')}</a>
+    </li>
+    {
+      user ? (
+        <li>
+          <a class="hover:text-foreground/80" href={`/${lang}/home`}>
+            {t('home')}
+          </a>
+        </li>
+      ) : null
+    }
+  </ul>
+</nav>

@@ -76,3 +76,18 @@ export const ArrowDownIcon: ParentComponent<ComponentProps<'svg'>> = (props) => 
     </svg>
   );
 };
+
+export const MenuIcon: ParentComponent<ComponentProps<'svg'>> = (props) => {
+  const [local, rest] = splitProps(props, ['class']);
+
+  return (
+    <svg class={local.class} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      />
+    </svg>
+  );
+};

@@ -5,6 +5,8 @@ import ThemeToggle from './theme-toggle.astro';
 import type { User } from 'lucia';
 import type { LangKeys } from '@/lib/config';
 import { Button, buttonVariants } from '../ui/button';
+import HeaderNav from './header-nav.astro';
+import { MenuIcon } from '@/components/common/icons';
 
 interface Props {
   user?: User;
@@ -18,28 +20,47 @@ const t = useTranslations(lang);
 <header class="mb-4 flex h-12 items-center border-b border-border px-8">
   <div class="flex flex-1">
     <div class="flex w-full gap-6 font-medium">
-      <a href={`/${lang}`}>{t('index')}</a>
-      <a href={`/${lang}/home`}>{t('home')}</a>
+      <HeaderNav type="desktop" user={user} lang={lang} />
+      <div
+        class="fixed bottom-0 left-0 right-0 top-[56px] z-50 hidden w-full overflow-y-auto bg-background px-4 lg:hidden"
+        id="mobile-menu"
+      >
+        <div class="flex flex-row justify-center gap-8 border-b border-border pb-4">
+          <LanguageSelect client:visible lang={lang} />
+        </div>
+        <HeaderNav lang={lang} user={user} type="mobile" />
+      </div>
     </div>
   </div>
   <div class="flex justify-end gap-4">
     {
       user ? (
         <form method="post" action={`/api/${lang}/logout`}>
-          <Button variant="outline" type="submit" class="hidden transition-none lg:flex">
+          <Button name="logout" variant="outline" type="submit" class="transition-none">
             {t('logout')}
           </Button>
         </form>
       ) : (
-        <a
-          class:list={['hidden lg:flex', buttonVariants({ variant: 'default', size: 'default' })]}
-          href={`/api/${lang}/login/github`}
-        >
+        <a class:list={[buttonVariants({ variant: 'default', size: 'default' })]} href={`/api/${lang}/login/github`}>
           {t('login')}
         </a>
       )
     }
-    <LanguageSelect client:load lang={lang} />
+    <LanguageSelect client:visible lang={lang} class="hidden lg:block" />
     <ThemeToggle />
+    <Button name="mobile-menu" variant="ghost" size="icon" class="lg:hidden" id="mobile-menu-btn">
+      <MenuIcon class="h-6 w-6 text-foreground" />
+    </Button>
   </div>
 </header>
+
+<script is:inline>
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const body = document.body;
+
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    body.classList.toggle('overflow-hidden');
+  });
+</script>

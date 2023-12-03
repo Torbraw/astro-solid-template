@@ -23,7 +23,7 @@ const { title, user, lang } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="min-h-screen">
     <Header user={user} lang={lang} />
     <slot />
   </body>

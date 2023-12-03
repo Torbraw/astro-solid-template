@@ -58,5 +58,10 @@ module.exports = {
         'astro/no-unused-css-selector': 'warn',
       },
     },
+    {
+      files: ['*.tsx'],
+      plugins: ["solid"],
+      extends: ['plugin:solid/typescript'],
+    }
   ],
 };

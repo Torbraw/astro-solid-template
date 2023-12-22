@@ -36,7 +36,7 @@ const t = useTranslations(lang);
     {
       user ? (
         <form method="post" action={`/api/${lang}/logout`}>
-          <Button name="logout" variant="outline" type="submit" class="transition-none">
+          <Button variant="outline" type="submit" class="transition-none">
             {t('logout')}
           </Button>
         </form>
@@ -48,7 +48,7 @@ const t = useTranslations(lang);
     }
     <LanguageSelect client:visible lang={lang} class="hidden lg:block" />
     <ThemeToggle />
-    <Button name="mobile-menu" variant="ghost" size="icon" class="lg:hidden" id="mobile-menu-btn">
+    <Button aria-label="mobile-menu" variant="ghost" size="icon" class="lg:hidden" id="mobile-menu-btn">
       <MenuIcon class="h-6 w-6 text-foreground" />
     </Button>
   </div>

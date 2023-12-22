@@ -1,0 +1,22 @@
+---
+type Props = {
+  type: 'mobile' | 'desktop';
+  href: string;
+};
+
+const { type, href } = Astro.props;
+---
+
+<li class="w-full">
+  <a
+    class:list={[
+      {
+        'hover:text-foreground/80': type === 'desktop',
+        'flex w-full justify-center border-b py-2 hover:bg-secondary': type === 'mobile',
+      },
+    ]}
+    href={href}
+  >
+    <slot />
+  </a>
+</li>

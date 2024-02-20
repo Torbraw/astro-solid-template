@@ -4,8 +4,8 @@ import { getLangFromUrl } from '@/lib/utils';
 
 const lang = getLangFromUrl(Astro.url);
 
-const session = await Astro.locals.auth.validate();
-if (!session) return Astro.redirect(`/${lang}`, 302);
+const user = Astro.locals.user;
+if (!user) return Astro.redirect(`/${lang}`, 302);
 ---
 
-<BaseLayout title="Home" user={session.user} lang={lang} />
+<BaseLayout title="Home" user={user} lang={lang} />

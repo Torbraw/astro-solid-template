@@ -1,14 +1,20 @@
-import { auth, githubAuth } from '@/lib/lucia';
-import { OAuthRequestError } from '@lucia-auth/oauth';
+import { github, lucia } from '@/lib/lucia';
+import { OAuth2RequestError } from 'arctic';
 import type { APIRoute } from 'astro';
+import { prisma } from '@/lib/prisma';
 
-export const GET: APIRoute = async (context) => {
-  const lang = context.cookies.get('lang')?.value ?? 'en';
-  const storedState = context.cookies.get('github_oauth_state')?.value;
-  if (!storedState) return context.redirect(`/${lang}/`, 302);
+interface GitHubUser {
+  id: number;
+  login: string;
+}
 
-  const state = context.url.searchParams.get('state');
-  const code = context.url.searchParams.get('code');
+export const GET: APIRoute = async ({ cookies, url, redirect }) => {
+  const lang = cookies.get('lang')?.value ?? 'en';
+  const storedState = cookies.get('github_oauth_state')?.value;
+  if (!storedState) return redirect(`/${lang}/`, 302);
+
+  const state = url.searchParams.get('state');
+  const code = url.searchParams.get('code');
 
   if (!state || storedState !== state || !code) {
     return new Response(null, {
@@ -17,30 +23,43 @@ export const GET: APIRoute = async (context) => {
   }
 
   try {
-    const { getExistingUser, githubUser, createUser } = await githubAuth.validateCallback(code);
+    const tokens = await github.validateAuthorizationCode(code);
+    const githubUserResponse = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${tokens.accessToken}`,
+      },
+    });
+    const githubUser = (await githubUserResponse.json()) as GitHubUser;
 
-    const getUser = async () => {
-      const existingUser = await getExistingUser();
-      if (existingUser) return existingUser;
+    let userId = '';
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        githubId: githubUser.id,
+      },
+    });
 
-      const user = await createUser({
-        attributes: {
+    if (!existingUser) {
+      const newUser = await prisma.user.create({
+        data: {
+          githubId: githubUser.id,
           username: githubUser.login,
         },
       });
-      return user;
-    };
+      userId = newUser.id;
+    } else {
+      userId = existingUser.id;
+    }
 
-    const user = await getUser();
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-    context.locals.auth.setSession(session);
-    return context.redirect(`/${lang}/home`, 302);
+    const session = await lucia.createSession(userId, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+    return redirect(`/${lang}/home`, 302);
   } catch (e) {
-    if (e instanceof OAuthRequestError) {
-      return e.response;
+    console.log(e);
+    if (e instanceof OAuth2RequestError) {
+      return new Response(null, {
+        status: 400,
+      });
     }
     return new Response(null, {
       status: 500,

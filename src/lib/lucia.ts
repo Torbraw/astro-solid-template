@@ -1,35 +1,36 @@
-import { lucia } from 'lucia';
-import { astro } from 'lucia/middleware';
-import { planetscale } from '@lucia-auth/adapter-mysql';
-import { connect } from '@planetscale/database';
-import { github } from '@lucia-auth/oauth/providers';
+import { Lucia } from 'lucia';
+import { GitHub } from 'arctic';
+import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
+import { prisma } from './prisma';
 
-const { DATABASE_URL, SITE_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PROD } = import.meta.env;
+const { SITE_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PROD } = import.meta.env;
 
-const connection = connect({
-  url: DATABASE_URL,
-});
+const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
-export const auth = lucia({
-  env: PROD ? 'PROD' : 'DEV',
-  middleware: astro(),
-  csrfProtection: PROD,
-  adapter: planetscale(connection, {
-    user: 'User',
-    key: 'UserKey',
-    session: 'UserSession',
-  }),
-  getUserAttributes(data) {
+export const lucia = new Lucia(adapter, {
+  sessionCookie: {
+    attributes: {
+      secure: PROD,
+    },
+  },
+  getUserAttributes: (attributes) => {
     return {
-      username: data.username,
+      username: attributes.username,
     };
   },
 });
 
-export const githubAuth = github(auth, {
-  clientId: GITHUB_CLIENT_ID,
-  clientSecret: GITHUB_CLIENT_SECRET,
-  redirectUri: `${SITE_URL}/api/login/github/callback`,
-});
+declare module 'lucia' {
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
+}
 
-export type Auth = typeof auth;
+interface DatabaseUserAttributes {
+  username: string;
+}
+
+export const github = new GitHub(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, {
+  redirectURI: `${SITE_URL}/api/login/github/callback`,
+});

@@ -1,15 +1,17 @@
 import type { APIRoute } from 'astro';
-import { auth } from '@/lib/lucia';
+import { lucia } from '@/lib/lucia';
 
-export const POST: APIRoute = async ({ locals, params, redirect }) => {
-  const session = await locals.auth.validate();
-  if (!session) {
+export const POST: APIRoute = async ({ locals, params, cookies, redirect }) => {
+  if (!locals.session) {
     return new Response('Unauthorized', {
       status: 401,
     });
   }
 
-  await auth.invalidateSession(session.sessionId);
-  locals.auth.setSession(null);
+  await lucia.invalidateSession(locals.session.id);
+
+  const sessionCookie = lucia.createBlankSessionCookie();
+  cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+
   return redirect(`/${params.lang}/`, 302);
 };

@@ -5,7 +5,7 @@ import { useTranslations } from '@/lib/utils';
 import HeaderLink from './header-link.astro';
 
 type Props = {
-  user?: User;
+  user: User | null;
   lang: LangKeys;
   type: 'mobile' | 'desktop';
 };

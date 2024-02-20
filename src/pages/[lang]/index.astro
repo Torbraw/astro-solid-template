@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/base-layout.astro';
 import { getLangFromUrl } from '@/lib/utils';
 
 const lang = getLangFromUrl(Astro.url);
-const session = await Astro.locals.auth.validate();
+const user = Astro.locals.user;
 ---
 
-<BaseLayout title="Index" lang={lang} user={session?.user} />
+<BaseLayout title="Index" lang={lang} user={user} />

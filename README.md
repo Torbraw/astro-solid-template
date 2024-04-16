@@ -4,7 +4,7 @@ This is a template for an Astro project that use solid-js for the reactive compo
 
 ## Auth
 
-Integrated auth with [lucia](https://lucia-auth.com/) and a github oauth2 provider. This template use a planetscale database to store the users with Prisma, but you can change the prisma adapter to use any other database & adapter.
+Integrated auth with [lucia](https://lucia-auth.com/) and a github oauth2 provider. This template use a supabase database to store the users with Prisma, but you can change the prisma adapter to use any other database & adapter.
 
 ## i18n
 

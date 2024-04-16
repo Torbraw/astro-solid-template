@@ -23,10 +23,12 @@ export const onRequest = defineMiddleware(async ({ cookies, locals, request }, n
   const { session, user } = await lucia.validateSession(sessionId);
   if (session?.fresh) {
     const sessionCookie = lucia.createSessionCookie(session.id);
+    //@ts-expect-error Waiting for update
     cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
   }
   if (!session) {
     const sessionCookie = lucia.createBlankSessionCookie();
+    //@ts-expect-error Waiting for update
     cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
   }
   locals.session = session;
